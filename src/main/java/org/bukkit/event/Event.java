@@ -1,10 +1,13 @@
 package org.bukkit.event;
 
+import org.bukkit.plugin.java.JavaPlugin;
+
 /**
  * Represents an event
  */
 public abstract class Event {
     private String name;
+    protected JavaPlugin sourcePlugin = null;
 
     /**
      * @return Name of this event
@@ -17,6 +20,31 @@ public abstract class Event {
     }
 
     public abstract HandlerList getHandlers();
+
+    /**
+     * Get the plugin this event originates from. Default is null, meaning it does not come from a plugin.
+     * <p />
+     * Note:
+     * Setting the source plugin is not enforced in any way.
+     * 
+     * @return The plugin this event originates from.
+     */
+    public JavaPlugin getSourcePlugin() {
+        return sourcePlugin;
+    }
+
+    /**
+     * Sets the plugin this event originates from. If not set, the default is null, meaning it does not come from a plugin.
+     * <p />
+     * Note:
+     * Plugins that create events should set themselves as the source using this method.
+     * Other plugins can then distinguish between naturally generated events and artificial events.
+     *
+     * @param sourcePlugin Source plugin of this event. A null value means it does not come from a plugin.
+     */
+    public void setSourcePlugin(JavaPlugin sourcePlugin) {
+        this.sourcePlugin = sourcePlugin;
+    }
 
     public enum Result {
 
